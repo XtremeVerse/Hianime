@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime Details</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="anime-details"></div>
+  <h2>Episodes</h2>
+  <ul id="episodes"></ul>
+
+  <script>
+    async function loadAnimeDetail() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const animeId = urlParams.get("id");
+
+      const res = await fetch("anime.json");
+      const data = await res.json();
+      const anime = data.anime.find(a => a.id === animeId);
+
+      if (!anime) {
+        document.body.innerHTML = "<h1>Anime not found</h1>";
+        return;
+      }
+
+      document.getElementById("anime-details").innerHTML = `
+        <img src="${anime.image}" alt="${anime.title}">
+        <h1>${anime.title}</h1>
+        <p>${anime.description}</p>
+      `;
+
+      const episodesList = document.getElementById("episodes");
+      anime.episodes.forEach(ep => {
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="watch.html?anime=${anime.id}&ep=${ep.id}">${ep.title}</a>`;
+        episodesList.appendChild(li);
+      });
+    }
+    loadAnimeDetail();
+  </script>
+</body>
+</html>
