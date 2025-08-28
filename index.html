@@ -1,77 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NetXtreme Anime</title>
-  <style>
-    body {
-      background: #1a001a;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .anime-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 15px;
-    }
-    .anime-card {
-      background: #2e003e;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      text-align: center;
-      transition: transform 0.2s ease;
-    }
-    .anime-card:hover {
-      transform: scale(1.05);
-    }
-    .anime-card img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-    }
-    .anime-card p {
-      margin: 10px;
-      font-size: 14px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnimeVerse - Watch Anime Free</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Trending Anime</h1>
-  <div id="anime-container" class="anime-grid"></div>
+  <h1>AnimeVerse</h1>
+  <div id="anime-list" class="grid"></div>
 
   <script>
     async function loadAnime() {
-      try {
-        let response = await fetch("https://api.consumet.org/anime/zoro/trending");
-        let data = await response.json();
+      const res = await fetch("anime.json");
+      const data = await res.json();
+      const container = document.getElementById("anime-list");
 
-        let container = document.getElementById("anime-container");
-        container.innerHTML = "";
-
-        data.results.forEach(anime => {
-          let card = document.createElement("div");
-          card.classList.add("anime-card");
-
-          card.innerHTML = `
-            <img src="${anime.image}" alt="${anime.title}" />
-            <p>${anime.title}</p>
-          `;
-
-          container.appendChild(card);
-        });
-      } catch (err) {
-        console.error("Failed to load anime:", err);
-      }
+      data.anime.forEach(a => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.innerHTML = `
+          <img src="${a.image}" alt="${a.title}">
+          <h3>${a.title}</h3>
+          <p>${a.description}</p>
+          <a href="anime.html?id=${a.id}">View</a>
+        `;
+        container.appendChild(card);
+      });
     }
-
     loadAnime();
   </script>
 </body>
