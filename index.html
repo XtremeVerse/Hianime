@@ -3,32 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AnimeVerse - Watch Anime Free</title>
+  <title>HiAnimez - Watch Anime Free</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>AnimeVerse</h1>
-  <div id="anime-list" class="grid"></div>
+  <header>
+    <h1>HiAnimez</h1>
+    <input type="text" id="search" placeholder="Search Anime...">
+  </header>
+  
+  <section>
+    <h2>🔥 Trending</h2>
+    <div id="anime-list" class="grid"></div>
+  </section>
 
-  <script>
-    async function loadAnime() {
-      const res = await fetch("anime.json");
-      const data = await res.json();
-      const container = document.getElementById("anime-list");
-
-      data.anime.forEach(a => {
-        const card = document.createElement("div");
-        card.classList.add("card");
-        card.innerHTML = `
-          <img src="${a.image}" alt="${a.title}">
-          <h3>${a.title}</h3>
-          <p>${a.description}</p>
-          <a href="anime.html?id=${a.id}">View</a>
-        `;
-        container.appendChild(card);
-      });
-    }
-    loadAnime();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
